@@ -38,14 +38,21 @@ const gql = `
 
 const parsedGql = (inpGql) => {
   const arrLine = inpGql.split("\n");
-  let concatArr;
+  let concatArr = "";
   for (let i = 0; i < arrLine.length; i++) {
-    if (arrLine[i].trim() === "{") {
-      concatArr = concatArr + arrLine[i].trim();
-    } else {
-      concatArr = concatArr + `"${arrLine[i].trim()}": null,`;
-    }
-    console.log(arrLine[i]);
+      if (arrLine[i]) {
+        if (arrLine[i].trim() === "{") {
+          concatArr = concatArr + arrLine[i].trim();
+        } else if(arrLine[i].trim().endsWith("{")) {
+           concatArr = concatArr + `"${arrLine[i].slice(0, arrLine[i].lastIndexOf("{")).trim()}": {`
+        
+        } else if(arrLine[i].trim() === "}") {
+            concatArr = concatArr + arrLine[i].trim()
+        }
+          else {
+          concatArr = concatArr + `"${arrLine[i].trim()}": null,`;
+        }
+      }
   }
   return concatArr;
 };
