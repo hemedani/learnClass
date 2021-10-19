@@ -45,12 +45,19 @@ const parsedGql = (inpGql) => {
           concatArr = concatArr + arrLine[i].trim();
         } else if(arrLine[i].trim().endsWith("{")) {
            concatArr = concatArr + `"${arrLine[i].slice(0, arrLine[i].lastIndexOf("{")).trim()}": {`
-        
         } else if(arrLine[i].trim() === "}") {
-            concatArr = concatArr + arrLine[i].trim()
+            if (arrLine[i +1] && arrLine[i + 1].trim() !== "}") {
+                concatArr = concatArr + arrLine[i].trim() + "," 
+            } else {
+                concatArr = concatArr + arrLine[i].trim() 
+            }
         }
           else {
-          concatArr = concatArr + `"${arrLine[i].trim()}": null,`;
+              if (arrLine[i + 1].trim() === "}") {
+                  concatArr = concatArr + `"${arrLine[i].trim()}": null`;
+              } else {
+                concatArr = concatArr + `"${arrLine[i].trim()}": null,`;
+              }
         }
       }
   }
@@ -59,7 +66,8 @@ const parsedGql = (inpGql) => {
 
 const convertedStr = parsedGql(gql);
 
-console.log("convertedStr => ", convertedStr);
+console.log("convertedStr => ", convertedStr)
+console.log("Parsed convertedStr => ", JSON.parse(convertedStr));
 
 // const myJSON = JSON.parse(convertedStr);
 // console.log(JSON.parse(validJSON).name);
