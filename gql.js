@@ -64,10 +64,23 @@ const parsedGql = (inpGql) => {
   return concatArr;
 };
 
-const convertedStr = parsedGql(gql);
+const proccessOpenBraces = (line) =>  `"${line.slice(0, line.lastIndexOf("{")).trim()}": {`
 
-console.log("convertedStr => ", convertedStr)
-console.log("Parsed convertedStr => ", JSON.parse(convertedStr));
+const proccessCloseBraces = (line, nextLine) =>  nextLine === "}" ?  line + "," : line
+
+const parsedFpGql = (inpGql) => {
+  return inpGql.split("\n").map((line, index, arr) => {
+      line = line.trim()
+return line && line.endsWith("{") ? proccessOpenBraces(line) : line.endsWith("}") ? proccessCloseBraces(line, arr[index +1]) : null
+  });
+};
+
+console.log(parsedFpGql(gql))
+
+// const convertedStr = parsedGql(gql);
+// 
+// console.log("convertedStr => ", convertedStr)
+// console.log("Parsed convertedStr => ", JSON.parse(convertedStr));
 
 // const myJSON = JSON.parse(convertedStr);
 // console.log(JSON.parse(validJSON).name);
