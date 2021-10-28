@@ -1,14 +1,14 @@
 const http = require('http');
+const fs = require("fs")
 
 const requestListener = function (req, res) {
     console.log("the requset is => ", req.method, req.url)
     if (req.method === "GET" && req.url === "/todos") {
+        const todos = fs.readFileSync("./todos.json", "utf-8" );
+        console.log("todos", todos)
         res
-  .writeHead(200, {
-    'Content-Length': Buffer.byteLength("not any todos for know"),
-    'Content-Type': 'text/plain'
-  })
-  .end("not any todos for know");
+  .writeHead(200 )
+  .end(todos);
         
     } else {
           res.writeHead(200);
