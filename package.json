@@ -1,22 +1,21 @@
 {
   "name": "learnclass",
   "version": "1.0.0",
-  "description": "Just a simple node js server",
+  "description": "This is a just learning node js course",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "start": "nodemon ./index.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hemedani/learnClass.git"
   },
   "keywords": [
-    "Http",
-    "Server"
+    "learning"
   ],
   "author": "Syd Amir",
-  "license": "MIT",
+  "license": "ISC",
   "bugs": {
     "url": "https://github.com/hemedani/learnClass/issues"
   },

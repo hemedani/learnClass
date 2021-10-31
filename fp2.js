@@ -39,30 +39,30 @@ const classStudent = (name) => {
 // }
 
 // It is a currying concept
-const classStudentCurry = (name) => (studentName) => (studentFalimy) => console.log(`the class name is ${name} and the student name is ${studentName} with ${studentFalimy} falimiles`)
-
-const jsClasses = classStudentCurry("JS");
-
-const saeidInJs = jsClasses("Saeid");
-
-const ghalkhanbazInSaeid = saeidInJs("ghalkhanbaz")
-
-
-const salehinJS = jsClasses("Saleh")
-
-const anotherSaeidInJs = saeidInJs("Mohammadi")
-
-const aslani = salehinJS("aslani")
-
-
-// It is a Recursion Concept
-const countDown = (num) => {
-    num--
-    console.log(num);
-    (num > 0) && countDown(num)
-}
-
-countDown(13)
+// const classStudentCurry = (name) => (studentName) => (studentFalimy) => console.log(`the class name is ${name} and the student name is ${studentName} with ${studentFalimy} falimiles`)
+// 
+// const jsClasses = classStudentCurry("JS");
+// 
+// const saeidInJs = jsClasses("Saeid");
+// 
+// const ghalkhanbazInSaeid = saeidInJs("ghalkhanbaz")
+// 
+// 
+// const salehinJS = jsClasses("Saleh")
+// 
+// const anotherSaeidInJs = saeidInJs("Mohammadi")
+// 
+// const aslani = salehinJS("aslani")
+// 
+// 
+// // It is a Recursion Concept
+// const countDown = (num) => {
+//     num--
+//     console.log(num);
+//     (num > 0) && countDown(num)
+// }
+// 
+// countDown(13)
 
 
 // Todo Recursive
@@ -95,7 +95,7 @@ const todos = [{
     parent: 5
 }]
 
-// {
+// [{
 //     title: "karhaye khone",
 //     todo: [{
 //         title: "kharid",
@@ -105,6 +105,17 @@ const todos = [{
 //         },
 //             {}]
 //     }]
-// }
+// }]
 
+
+
+const createChildTodo = (todos, paretId) => {
+    let returnedTodo = [];
+    todos.filter((todo) => (todo.parent === paretId && returnedTodo.push(todo)))
+    returnedTodo.map(todo => todo.todo = createChildTodo(todos, todo.id))
+    return returnedTodo
+}
+
+
+console.log(JSON.stringify(createChildTodo(todos, null), null, 2))
 
