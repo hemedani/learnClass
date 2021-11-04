@@ -1,21 +1,22 @@
 const http = require('http');
 const fs = require("fs")
+const url = require("url")
+const { getTodoPromise } = require("./promiseRead")
 
-const todos = JSON.parse(fs.readFileSync("./todos.json", "utf-8")).filter(todo => todo.done === false)
+const todos = JSON.parse(fs.readFileSync("./todos.json", "utf-8"))
 const requestListener = function(req, res) {
-    console.log("the requset is => ", req.method, req.url)
     if (req.method === "GET" && req.url === "/todos") {
-        console.log("todos", todos)
         res
             .writeHead(200)
             .end(JSON.stringify(todos, null, 2));
 
     } else if (req.method === "GET" && /^\/todo/.test(req.url)) {
-        console.log(req)
         const current_url = new URL(`http://localhost:8000${req.url}`);
 
         // get access to URLSearchParams object
         const search_params = current_url.searchParams;
+
+        console.log("search_param.get(id)", Number(search_params.get("id")))
 
         console.log(search_params)
         const foundedTodo = todos.find(todo => todo.id === Number(search_params.get("id")))
@@ -23,7 +24,7 @@ const requestListener = function(req, res) {
             .writeHead(200)
             .end(JSON.stringify(foundedTodo, null, 2));
     } else if (req.method === "POST" && /^\/todo/.test(req.url)) {
-        fs.readFile("./todos.json", "utf8", (err, todo) => {
+        fs.readFile("./todos.json", "utf8", (err, todos) => {
             if (err) {
                 console.log(err)
                 res.writeHead(501);
@@ -33,16 +34,15 @@ const requestListener = function(req, res) {
             const current_url = new URL(`http://localhost:8000${req.url}`);
 
             const search_params = current_url.searchParams;
-            const parsedTodo = JSON.parse(todo)
+            const parsedTodo = JSON.parse(todos)
             parsedTodo.push({ id: parsedTodo.length + 1, title: search_params.get("title"), desc: search_params.get("desc"), done: false })
             console.log(parsedTodo)
-            fs.writeFile("./todos.json", JSON.stringify(parsedTodo, null, 2), (err, done) => {
+            fs.writeFile("./todos.json", JSON.stringify(parsedTodo, null, 2), (err, _) => {
                 if (err) {
                     console.log(err)
                     res.writeHead(501);
                     res.end('Server is crashed');
                 }
-                console.log(done)
                 res.writeHead(501);
                 res.end(JSON.stringify(parsedTodo, null, 2));
 
@@ -50,9 +50,33 @@ const requestListener = function(req, res) {
         })
 
 
-    } else {
-        console.log(req.method)
+    } else if (req.method === "GET" && /^\/toggletodo/.test(req.url)) {
+        const queryObject = url.parse(req.url, true).query;
+        const promiseTodos1 = getTodoPromise("./todos/1.json")
+        const promiseTodos2 = getTodoPromise("./todos/2.json")
 
+        Promise.all([promiseTodos1, promiseTodos2]).then(resp => {
+            console.log("resp in promise all", resp)
+        })
+        const newTodos = todos.map(todo => {
+            if (todo.id === Number(queryObject.id)) {
+                todo.done = !todo.done
+                return todo
+            } else {
+                return todo
+            }
+        })
+
+        fs.writeFileSync("./todos.json", JSON.stringify(newTodos, null, 2), (err, _) => {
+            if (err) {
+                console.log(err)
+                res.writeHead(501);
+                res.end('Server is crashed');
+            }
+        })
+        res.writeHead(200);
+        res.end(JSON.stringify(newTodos, null, 2));
+    } else {
         res.writeHead(200);
         res.end('Hello, World!');
     }
