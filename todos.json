@@ -21,12 +21,12 @@
     "id": 4,
     "title": "another todo",
     "desc": "some litle description",
-    "done": false
+    "done": true
   },
   {
     "id": 5,
     "title": "another todo",
     "desc": "some litle description",
-    "done": false
+    "done": true
   }
 ]
