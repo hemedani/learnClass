@@ -1,5 +1,6 @@
 {
   "name": "learnclass",
+  "type": "module",
   "version": "1.0.0",
   "description": "This is a just learning node js course",
   "main": "index.js",
@@ -22,5 +23,9 @@
   "homepage": "https://github.com/hemedani/learnClass#readme",
   "devDependencies": {
     "nodemon": "^2.0.14"
+  },
+  "dependencies": {
+    "baconjs": "^3.0.17",
+    "node-fetch": "^3.1.0"
   }
 }

@@ -1,7 +1,3 @@
-const fs = require("fs");
+import fs from "fs";
 
-const fetchTodos = () => JSON.parse(fs.readFileSync("./todos.json", "utf-8"));
-
-module.exports = {
-    fetchTodos,
-};
+export const fetchTodos = () => JSON.parse(fs.readFileSync("./todos.json", "utf-8"));

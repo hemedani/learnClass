@@ -1,6 +1,6 @@
-const { getUrls } = require("./gets");
+import { getUrls } from "./gets.js";
 
-const switchMethod = (req, res) => {
+export const switchMethod = (req, res) => {
     switch (req.method) {
         case "GET":
             getUrls(req, res);
@@ -12,8 +12,4 @@ const switchMethod = (req, res) => {
             res.writeHead(200);
             res.end("Hello, World!");
     }
-};
-
-module.exports = {
-    switchMethod,
 };

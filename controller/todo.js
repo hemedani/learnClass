@@ -1,16 +1,16 @@
-const { fetchTodos } = require("./fetchTodo");
-const url = require("url");
-const fs = require("fs");
+import fs from "fs";
+import url from "url";
+import { fetchTodos } from "./fetchTodo.js";
 
-const getTodos = (_, res) => {
+export const getTodos = (_, res) => {
     const todos = fetchTodos();
     res
         .writeHead(200)
         .end(JSON.stringify(todos, null, 2));
 };
 
-const toggleTodo = (req, res) => {
-    const queryObject = url.parse(req.url, true).query;
+export const toggleTodo = (req, res) => {
+    const queryObject = req.parsedUrl.query;
 
     const todos = fetchTodos();
 
@@ -32,9 +32,4 @@ const toggleTodo = (req, res) => {
     });
     res.writeHead(200);
     res.end(JSON.stringify(newTodos, null, 2));
-};
-
-module.exports = {
-    getTodos,
-    toggleTodo,
 };

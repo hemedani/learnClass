@@ -9,7 +9,7 @@
     "id": 2,
     "title": "create another model",
     "desc": "this model should be include user data",
-    "done": false
+    "done": true
   },
   {
     "id": 3,
@@ -21,7 +21,7 @@
     "id": 4,
     "title": "another todo",
     "desc": "some litle description",
-    "done": true
+    "done": false
   },
   {
     "id": 5,

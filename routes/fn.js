@@ -1,6 +1,6 @@
-const { switchMethod } = require("./switch");
+import { switchMethod } from "./switch.js";
 
-const listener = function(req, res) {
+export const listener = function(req, res) {
     if (req.method === "GET" && req.url === "/todos") {
         res
             .writeHead(200)
@@ -79,11 +79,6 @@ const listener = function(req, res) {
     }
 };
 
-const newListener = (req, res) => {
+export const newListener = (req, res) => {
     switchMethod(req, res);
-};
-
-module.exports = {
-    listener,
-    newListener,
 };

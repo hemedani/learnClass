@@ -1,16 +1,14 @@
-const { getTodos, toggleTodo } = require("../controller/todo");
+import url from "url";
+import { getTodos, toggleTodo } from "../controller/todo.js";
 
-var myStr = "/toggletodo";
+export const getUrls = (req, res) => {
+    req.parsedUrl = url.parse(req.url, true);
 
-const getUrls = (req, res) => {
-    const url = req.url;
-
-    switch (url) {
+    switch (req.parsedUrl.pathname) {
         case "/todos":
             getTodos(req, res);
             break;
-        case (url.indexOf("/toggletodo") === 0):
-            console.log("we are here");
+        case "/toggletodo":
             toggleTodo(req, res);
             break;
         default:
@@ -18,8 +16,4 @@ const getUrls = (req, res) => {
             res.writeHead(200);
             res.end("nothing requeted");
     }
-};
-
-module.exports = {
-    getUrls,
 };
